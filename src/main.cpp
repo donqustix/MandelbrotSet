@@ -86,8 +86,8 @@ int main()
                 SDL_Event sdl_event;
 
                 ::SDL_LockSurface(surface);
-                ::render_fractal(surface, -0.235125F - 4E-5F, 0.827215F - 4E-5F,
-                                          -0.235125F + 4E-5F, 0.827215F + 4E-5F, 1000);
+                ::render_fractal(surface, -0.74529F - 1.5E-4F, 0.113075F - 1.5E-4F,
+                                          -0.74529F + 1.5E-4F, 0.113075F + 1.5E-4F, 1000);
                 ::SDL_UnlockSurface(surface);
 
                 bool running = true;
