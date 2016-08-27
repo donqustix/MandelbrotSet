@@ -5,8 +5,8 @@
 
 namespace
 {
-    constexpr int WINDOW_WIDTH  = 640;
-    constexpr int WINDOW_HEIGHT = 480;
+    constexpr int WINDOW_WIDTH  = 800;
+    constexpr int WINDOW_HEIGHT = 600;
 
     inline void set_pixel(SDL_Surface* surface, int x, int y, Uint8 r, Uint8 g, Uint8 b) noexcept
     {
@@ -59,11 +59,10 @@ namespace
 
                 if (iterations < max_iterations)
                 {
-                    const auto r = palette[3 * (iterations * 100 / max_iterations % 16)    ];
-                    const auto g = palette[3 * (iterations * 100 / max_iterations % 16) + 1];
-                    const auto b = palette[3 * (iterations * 100 / max_iterations % 16) + 2];
+                    const auto row_index = 3 * (iterations * 100 / max_iterations % 16);
 
-                    ::set_pixel(surface, x, WINDOW_HEIGHT - 1 - y, r, g, b);
+                    ::set_pixel(surface, x, WINDOW_HEIGHT - 1 - y,
+                            *(palette + row_index), *(palette + row_index + 1), *(palette + row_index + 2));
                 }
                 else
                     ::set_pixel(surface, x, WINDOW_HEIGHT - 1 - y, 0, 0, 0);
@@ -105,9 +104,13 @@ int main()
             }
             else
                 std::cerr << "SDL_Surface getting error: " << ::SDL_GetError() << std::endl;
+
+            ::SDL_DestroyWindow(window);
         }
         else
             std::cerr << "SDL_Window creation error: " << ::SDL_GetError() << std::endl;
+
+        ::SDL_Quit();
     }
     else
         std::cerr << "SDL2 initialization error: " << ::SDL_GetError() << std::endl;
